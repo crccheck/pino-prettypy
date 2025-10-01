@@ -1,7 +1,6 @@
 {
   "name": "@crccheck/pino-prettypy",
   "version": "0.1.0",
-  "main": "index.js",
   "bin": {
     "pino-prettypy": "./bin/pino-prettypy.js"
   },
@@ -16,7 +15,7 @@
   ],
   "author": "Chris Chang <github@crccheck.com> (http://crccheck.com/blog)",
   "license": "ISC",
-  "description": "A wrapper around pino-pretty",
+  "description": "A wrapper around pino-pretty that adds Python logging level transformation.",
   "dependencies": {
     "pino-pretty": "*"
   },
