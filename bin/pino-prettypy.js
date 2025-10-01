@@ -1,26 +1,34 @@
 #!/usr/bin/env node
 
 /*
- * This file is based on node_modules/pino-pretty/bin.js
+ * Based on pino-pretty/bin.js
+ * Original Copyright (c) 2019 the Pino team listed at https://github.com/pinojs/pino#the-team
+ * Licensed under MIT License
+ *
+ * Modifications Copyright (c) 2025 Chris Chang
+ *
+ * This file is a modified version of pino-pretty's bin.js that adds
+ * Python logging level transformation via pythonToPinoTransform.
  *
  * To update when a new version of pino-pretty is released:
  * 1. Copy the entire contents of node_modules/pino-pretty/bin.js
  * 2. Replace the contents of this file with that copy
- * 3. Add the pythonToPinoTransform import:
+ * 3. Re-add this copyright notice at the top
+ * 4. Add the pythonToPinoTransform import:
  *    const pythonToPinoTransform = require('../lib/pythonToPinoTransform')
- * 4. Update the require statements to reference pino-pretty as a module:
+ * 5. Update the require statements to reference pino-pretty as a module:
  *    - Change: const build = require('./')
  *      To: const build = require('pino-pretty')
  *    - Change: const CONSTANTS = require('./lib/constants')
  *      To: const CONSTANTS = require('pino-pretty/lib/constants')
  *    - Change: const { isObject } = require('./lib/utils')
  *      To: const { isObject } = require('pino-pretty/lib/utils')
- * 5. Update the help path to use the pino-pretty module path:
+ * 6. Update the help path to use the pino-pretty module path:
  *    dir: path.join(path.dirname(require.resolve('pino-pretty')), 'help')
- * 6. In the pump() call, add pythonToPinoTransform to the chain:
+ * 7. In the pump() call, add pythonToPinoTransform to the chain:
  *    - Change: pump(process.stdin, res)
  *      To: pump(process.stdin, pythonToPinoTransform, res)
- * 7. Ensure minimist is imported (should already be there)
+ * 8. Ensure minimist is imported (should already be there)
  */
 
 "use strict";
@@ -122,7 +130,7 @@ if (cmd.h || cmd.help) {
     }
     if (configPath && !result.data) {
       throw new Error(
-        `Failed to load runtime configuration file: ${configPath}`,
+        `Failed to load runtime configuration file: ${configPath}`
       );
     }
     return result.data;
