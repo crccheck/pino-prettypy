@@ -34,8 +34,5 @@ const pythonToPinoTransform = new Transform({
 // Create the pretty stream
 const prettyStream = pinoPretty();
 
-// Pipe stdin through the transform, then through pino-pretty to stdout
-process.stdin
-  .pipe(pythonToPinoTransform)
-  .pipe(prettyStream)
-  .pipe(process.stdout);
+// Pipe stdin through the transform, then through pino-pretty
+process.stdin.pipe(pythonToPinoTransform).pipe(prettyStream);
