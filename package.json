@@ -6,7 +6,8 @@
   },
   "scripts": {
     "test": "node --test",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "lint": "prettier --check ."
   },
   "keywords": [
     "pino",
