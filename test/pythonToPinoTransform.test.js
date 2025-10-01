@@ -2,8 +2,8 @@ const { test } = require("node:test");
 const assert = require("node:assert");
 const { Writable } = require("stream");
 
-// Helper to test a transform stream with input/output
-function testTransform(transform, input, assertions) {
+// Helper to test a transform stream with input and return output
+async function testTransform(transform, input) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     const output = new Writable({
@@ -14,13 +14,7 @@ function testTransform(transform, input, assertions) {
     });
 
     output.on("finish", () => {
-      try {
-        const result = chunks.join("");
-        assertions(result);
-        resolve();
-      } catch (err) {
-        reject(err);
-      }
+      resolve(chunks.join(""));
     });
 
     output.on("error", reject);
@@ -36,21 +30,20 @@ test("transforms Python INFO level to Pino level 30", async () => {
   const pythonToPinoTransform = require("../lib/pythonToPinoTransform");
   const input = '{"levelname":"INFO","message":"test"}\n';
 
-  await testTransform(pythonToPinoTransform, input, (result) => {
-    assert.match(result, /"level":30/);
-    assert.doesNotMatch(result, /"levelname"/);
-  });
+  const result = await testTransform(pythonToPinoTransform, input);
+
+  assert.match(result, /"level":30/);
+  assert.doesNotMatch(result, /"levelname"/);
 });
 
 test("transforms Python DEBUG level to Pino level 20", async () => {
-  // Need to re-require to get a fresh instance since streams can't be reused
   delete require.cache[require.resolve("../lib/pythonToPinoTransform")];
   const pythonToPinoTransform = require("../lib/pythonToPinoTransform");
   const input = '{"levelname":"DEBUG","message":"debug message"}\n';
 
-  await testTransform(pythonToPinoTransform, input, (result) => {
-    assert.match(result, /"level":20/);
-  });
+  const result = await testTransform(pythonToPinoTransform, input);
+
+  assert.match(result, /"level":20/);
 });
 
 test("transforms Python ERROR level to Pino level 50", async () => {
@@ -58,9 +51,9 @@ test("transforms Python ERROR level to Pino level 50", async () => {
   const pythonToPinoTransform = require("../lib/pythonToPinoTransform");
   const input = '{"levelname":"ERROR","message":"error message"}\n';
 
-  await testTransform(pythonToPinoTransform, input, (result) => {
-    assert.match(result, /"level":50/);
-  });
+  const result = await testTransform(pythonToPinoTransform, input);
+
+  assert.match(result, /"level":50/);
 });
 
 test("transforms Python WARNING level to Pino level 40", async () => {
@@ -68,9 +61,9 @@ test("transforms Python WARNING level to Pino level 40", async () => {
   const pythonToPinoTransform = require("../lib/pythonToPinoTransform");
   const input = '{"levelname":"WARNING","message":"warning message"}\n';
 
-  await testTransform(pythonToPinoTransform, input, (result) => {
-    assert.match(result, /"level":40/);
-  });
+  const result = await testTransform(pythonToPinoTransform, input);
+
+  assert.match(result, /"level":40/);
 });
 
 test("transforms Python CRITICAL level to Pino level 60", async () => {
@@ -78,9 +71,9 @@ test("transforms Python CRITICAL level to Pino level 60", async () => {
   const pythonToPinoTransform = require("../lib/pythonToPinoTransform");
   const input = '{"levelname":"CRITICAL","message":"critical message"}\n';
 
-  await testTransform(pythonToPinoTransform, input, (result) => {
-    assert.match(result, /"level":60/);
-  });
+  const result = await testTransform(pythonToPinoTransform, input);
+
+  assert.match(result, /"level":60/);
 });
 
 test("passes through unknown level names unchanged", async () => {
@@ -88,7 +81,7 @@ test("passes through unknown level names unchanged", async () => {
   const pythonToPinoTransform = require("../lib/pythonToPinoTransform");
   const input = '{"levelname":"CUSTOM","message":"custom level"}\n';
 
-  await testTransform(pythonToPinoTransform, input, (result) => {
-    assert.match(result, /"levelname":"CUSTOM"/);
-  });
+  const result = await testTransform(pythonToPinoTransform, input);
+
+  assert.match(result, /"levelname":"CUSTOM"/);
 });
