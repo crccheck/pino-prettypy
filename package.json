@@ -1,0 +1,23 @@
+{
+  "name": "pino-prettypy",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "bin": {
+    "pino-prettypy": "./bin/pino-prettypy.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pino",
+    "pretty",
+    "logging"
+  ],
+  "author": "Chris Chang <c@crccheck.com> (http://crccheck.com/blog)",
+  "license": "ISC",
+  "description": "A wrapper around pino-pretty",
+  "dependencies": {
+    "pino-pretty": "*"
+  }
+}
