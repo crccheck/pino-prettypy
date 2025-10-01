@@ -130,7 +130,7 @@ if (cmd.h || cmd.help) {
     }
     if (configPath && !result.data) {
       throw new Error(
-        `Failed to load runtime configuration file: ${configPath}`
+        `Failed to load runtime configuration file: ${configPath}`,
       );
     }
     return result.data;

@@ -1,13 +1,13 @@
 {
   "name": "@crccheck/pino-prettypy",
   "version": "0.1.0",
-  "main": "index.js",
   "bin": {
     "pino-prettypy": "./bin/pino-prettypy.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --write ."
+    "test": "node --test",
+    "format": "prettier --write .",
+    "lint": "prettier --check ."
   },
   "keywords": [
     "pino",
@@ -16,7 +16,7 @@
   ],
   "author": "Chris Chang <github@crccheck.com> (http://crccheck.com/blog)",
   "license": "ISC",
-  "description": "A wrapper around pino-pretty",
+  "description": "A wrapper around pino-pretty that adds Python logging level transformation.",
   "dependencies": {
     "pino-pretty": "*"
   },
